@@ -80,10 +80,13 @@ public class ProgramRESTService {
     @POST
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
+//    public void updateRadioProgram(RadioProgram rp) {
+//        service.processModify(rp);
+//    }
     public void updateRadioProgram(RadioProgram rp) {
         service.processModify(rp);
     }
-    
+
     /**
      * POST method for creating an instance of resource
      * @param content representation for the resource

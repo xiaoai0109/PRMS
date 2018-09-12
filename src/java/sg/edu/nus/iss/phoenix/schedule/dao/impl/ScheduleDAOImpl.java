@@ -85,7 +85,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
     public List<ProgramSlot> loadAll() throws SQLException {
         openConnection();
-        String sql = "SELECT * FROM `program-slot` ORDER BY `dateOfProgram` ASC; ";
+        String sql = "SELECT * FROM `program-slot` ORDER BY `dateOfProgram` DESC; ";
         List<ProgramSlot> searchResults = listQuery(connection
                 .prepareStatement(sql));
         closeConnection();
