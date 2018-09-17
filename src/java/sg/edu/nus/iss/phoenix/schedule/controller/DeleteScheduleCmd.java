@@ -27,13 +27,16 @@ public class DeleteScheduleCmd implements Perform {
     @Override
     public String perform(String path, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         ScheduleDelegate del = new ScheduleDelegate();
-        String rpname = req.getParameter("rpname");
-        String date = req.getParameter("date");
-        Date d_date = Date.valueOf(date);
-        String sttime = req.getParameter("sttime");
-        Time t_sttime = Time.valueOf(sttime);
-        
-        del.processDelete(rpname, d_date, t_sttime);
+        int id = Integer.valueOf(req.getParameter("id"));
+
+//        String rpname = req.getParameter("rpname");
+//        String date = req.getParameter("date");
+//        Date d_date = Date.valueOf(date);
+//        String sttime = req.getParameter("sttime");
+//        Time t_sttime = Time.valueOf(sttime);
+
+        del.processDelete(id);
+//        del.processDelete(rpname, d_date, t_sttime);
 
         ReviewSelectScheduleDelegate psDel = new ReviewSelectScheduleDelegate();
         List<ProgramSlot> data = psDel.reviewSelectSchedule();

@@ -84,12 +84,14 @@ public class ScheduleService {
         }
     }
 
-    public void processModify(ProgramSlot ps, ProgramSlot oldPs) {
+    public void processModify(ProgramSlot ps) {
 
         try {
             System.out.println(ps.toString());
-            System.out.println(oldPs.toString());
-            psdao.save(ps, oldPs);
+            psdao.save(ps);
+
+//            System.out.println(oldPs.toString());
+//            psdao.save(ps, oldPs);
 
         } catch (NotFoundException e) {
             // TODO Auto-generated catch block
@@ -101,11 +103,11 @@ public class ScheduleService {
 
     }
 
-    public void processDelete(String rpname, Date date, Time sttime) {
+    public void processDelete(int id) {
 
         try {
-            ProgramSlot ps = new ProgramSlot(rpname, date, sttime);
-            psdao.delete(ps);
+//            ProgramSlot ps = new ProgramSlot(id);
+            psdao.delete(id);
         } catch (NotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

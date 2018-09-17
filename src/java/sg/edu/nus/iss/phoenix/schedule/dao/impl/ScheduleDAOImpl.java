@@ -89,7 +89,9 @@ public class ScheduleDAOImpl implements ScheduleDAO {
         List<ProgramSlot> searchResults = listQuery(connection
                 .prepareStatement(sql));
         closeConnection();
-        System.out.println("record size"+searchResults.size());
+        System.out.println("record size "+ searchResults.size());
+        System.out.println("record 1 "+ searchResults.get(0).toString());
+
         return searchResults;
     }
 
@@ -104,8 +106,8 @@ public class ScheduleDAOImpl implements ScheduleDAO {
         PreparedStatement stmt = null;
         openConnection();
         try {
-            sql = "INSERT INTO `program-slot` (`program-name`, `dateOfProgram`, `startTime`,  `duration`, " +
-                    "`presenter`,   `producer`) VALUES (?,?,?,?,?,?); ";
+            sql = "INSERT INTO `program-slot` (`id`, `program-name`, `dateOfProgram`, `startTime`,  `duration`, `presenter`,   `producer`) " +
+                    "SELECT ifnull(MAX(`id`) + 1,1), ?,?,?,?,?,? FROM `program-slot`; ";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, valueObject.getRpname());
             stmt.setDate(2, valueObject.getDate());
@@ -113,6 +115,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             stmt.setTime(4, valueObject.getDuration());
             stmt.setString(5, valueObject.getPresenter());
             stmt.setString(6, valueObject.getProducer());
+            System.out.println("create sql "+ stmt);
             int rowcount = databaseUpdate(stmt);
             if (rowcount != 1) {
                 // System.out.println("PrimaryKey Error when updating DB!");
@@ -131,12 +134,15 @@ public class ScheduleDAOImpl implements ScheduleDAO {
      * @see sg.edu.nus.iss.phoenix.ProgramSlot.dao.impl.ProgramDAO#save(sg.edu.nus.iss.phoenix.ProgramSlot.entity.ProgramSlot)
      */
     @Override
-    public void save(ProgramSlot valueObject, ProgramSlot oldValueObject) throws NotFoundException,
+    public void save(ProgramSlot valueObject) throws NotFoundException,
             SQLException {
         // mia: need to check overlap first, maybe use searchMatching method
+//        String sql = "UPDATE `program-slot` SET `program-name` = ?, `dateOfProgram` = ?, `startTime` = ?, " +
+//                "`duration` = ?, `presenter` = ?, `producer` = ?  " +
+//                "WHERE (`dateOfProgram` = ?) and (`startTime` = ?);\n";
         String sql = "UPDATE `program-slot` SET `program-name` = ?, `dateOfProgram` = ?, `startTime` = ?, " +
                 "`duration` = ?, `presenter` = ?, `producer` = ?  " +
-                "WHERE (`dateOfProgram` = ?) and (`startTime` = ?);\n";
+                "WHERE (`id` = ?);\n";
         PreparedStatement stmt = null;
         openConnection();
         try {
@@ -148,8 +154,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             stmt.setString(5, valueObject.getPresenter());
             stmt.setString(6, valueObject.getProducer());;
 
-            stmt.setDate(7, oldValueObject.getDate());
-            stmt.setTime(8, oldValueObject.getSttime());
+            stmt.setInt(7, valueObject.getId());
 
             System.out.println("save stmt" + stmt.toString());
 
@@ -175,24 +180,27 @@ public class ScheduleDAOImpl implements ScheduleDAO {
      * @see sg.edu.nus.iss.phoenix.ProgramSlot.dao.impl.ProgramDAO#delete(sg.edu.nus.iss.phoenix.ProgramSlot.entity.ProgramSlot)
      */
     @Override
-    public void delete(ProgramSlot valueObject) throws NotFoundException,
+    public void delete(int id) throws NotFoundException,
             SQLException {
 
-        if (valueObject.getRpname() == null || valueObject.getDate() == null
-                || valueObject.getSttime() == null) {
+//        if (valueObject.getRpname() == null || valueObject.getDate() == null
+//                || valueObject.getSttime() == null) {
+//            // System.out.println("Can not select without Primary-Key!");
+//            throw new NotFoundException("Can not select without Primary-Key!");
+//        }
+
+        if (id == 0) {
             // System.out.println("Can not select without Primary-Key!");
             throw new NotFoundException("Can not select without Primary-Key!");
         }
 
-        String sql = "DELETE FROM `program-slot` WHERE (`program-name` = ? AND `dateOfProgram` = ? AND `startTime` = ? ); ";
+        String sql = "DELETE FROM `program-slot` WHERE (`id` = ?); ";
         PreparedStatement stmt = null;
         System.out.println("del sql:" + sql);
         openConnection();
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, valueObject.getRpname());
-            stmt.setDate(2, valueObject.getDate());
-            stmt.setTime(3, valueObject.getSttime());
+            stmt.setInt(1, id);
 
             System.out.print("del stmt:" + stmt.toString());
             int rowcount = databaseUpdate(stmt);
@@ -395,7 +403,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
             while (result.next()) {
                 ProgramSlot temp = createValueObject();
-
+                temp.setId(result.getInt("id"));
                 temp.setRpname(result.getString("program-name"));
                 temp.setDate(result.getDate("dateOfProgram"));
                 temp.setSttime(result.getTime("startTime"));

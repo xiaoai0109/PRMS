@@ -94,7 +94,7 @@ public interface ScheduleDAO {
      * @throws sg.edu.nus.iss.phoenix.core.exceptions.NotFoundException
      * @throws java.sql.SQLException
      */
-    public abstract void save(ProgramSlot valueObject, ProgramSlot oldValueObject)
+    public abstract void save(ProgramSlot valueObject)
             throws NotFoundException, SQLException;
 
     /**
@@ -112,7 +112,7 @@ public interface ScheduleDAO {
      * @throws sg.edu.nus.iss.phoenix.core.exceptions.NotFoundException
      * @throws java.sql.SQLException
      */
-    public abstract void delete(ProgramSlot valueObject)
+    public abstract void delete(int id)
             throws NotFoundException, SQLException;
 
     /**

@@ -25,14 +25,18 @@ public class ScheduleDelegate {
         service.processCreate(ps);
 
     }
-    public void processModify(ProgramSlot ps, ProgramSlot oldPs) {
+    public void processModify(ProgramSlot ps) {
         ScheduleService service = new ScheduleService();
-        service.processModify(ps, oldPs);
+        service.processModify(ps);
 
     }
 
-    public void processDelete(String rpname, Date date, Time sttime) {
+//    public void processDelete(String rpname, Date date, Time sttime) {
+//        ScheduleService service = new ScheduleService();
+//        service.processDelete(rpname, date, sttime);
+//    }
+    public void processDelete(int id) {
         ScheduleService service = new ScheduleService();
-        service.processDelete(rpname, date, sttime);
+        service.processDelete(id);
     }
 }

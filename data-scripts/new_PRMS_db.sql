@@ -74,5 +74,5 @@ CREATE INDEX `name_program_slot` ON `phoenix`.`program-slot` (`program-name` ASC
 
 CREATE INDEX `dateOfProgram` ON `phoenix`.`program-slot` (`dateOfProgram` ASC) ;
 
-
+drop table `program-slot`;
 

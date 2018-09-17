@@ -13,6 +13,7 @@
 <h1><fmt:message key="label.crudps"/></h1>
 
 <c:url var="url" scope="page" value="/nocturne/addeditps">
+    <c:param name="id" value=""/>
     <c:param name="rpname" value=""/>
     <c:param name="date" value=""/>
     <c:param name="sttime" value=""/>
@@ -36,7 +37,7 @@
     </tr>
     <c:forEach var="crudps" items="${pss}" varStatus="status">
         <tr class="${status.index%2==0?'even':'odd'}">
-            <td class="nowrap">${crudps.rpname}</td>
+            <td class="nowrap">${crudps.id} ${crudps.rpname}</td>
             <td class="nowrap">${crudps.date}</td>
             <td class="nowrap">${crudps.sttime}</td>
             <td class="nowrap">${crudps.duration}</td>
@@ -45,11 +46,12 @@
             <%--<h1>Empty</h1>--%>
             <td class="nowrap">
                 <c:url var="updurl" scope="page" value="/nocturne/addeditps">
+                    <c:param name="id" value="${crudps.id}"/>
                     <c:param name="rpname" value="${crudps.rpname}"/>
                     <c:param name="date" value="${crudps.date}"/>
-                    <c:param name="oldDate" value="${crudps.date}"/>
+                    <%--<c:param name="oldDate" value="${crudps.date}"/>--%>
                     <c:param name="sttime" value="${crudps.sttime}"/>
-                    <c:param name="oldSttime" value="${crudps.sttime}"/>
+                    <%--<c:param name="oldSttime" value="${crudps.sttime}"/>--%>
                     <c:param name="duration" value="${crudps.duration}"/>
                     <c:param name="presenter" value="${crudps.presenter}"/>
                     <c:param name="producer" value="${crudps.producer}"/>
@@ -59,9 +61,10 @@
                 <a href="${updurl}"><fmt:message key="label.crudps.edit"/></a>
                 &nbsp;&nbsp;&nbsp;
                 <c:url var="delurl" scope="page" value="/nocturne/deleteps">
-                    <c:param name="rpname" value="${crudps.rpname}"/>
-                    <c:param name="date" value="${crudps.date}"/>
-                    <c:param name="sttime" value="${crudps.sttime}"/>
+                    <c:param name="id" value="${crudps.id}"/>
+                    <%--<c:param name="rpname" value="${crudps.rpname}"/>--%>
+                    <%--<c:param name="date" value="${crudps.date}"/>--%>
+                    <%--<c:param name="sttime" value="${crudps.sttime}"/>--%>
                 </c:url>
                 <a href="${delurl}"><fmt:message key="label.crudps.delete"/></a>
             </td>

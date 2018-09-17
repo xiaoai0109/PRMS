@@ -30,7 +30,8 @@ public class EnterScheduleDetailsCmd implements Perform {
     public String perform(String path, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         ScheduleDelegate del = new ScheduleDelegate();
         ProgramSlot ps = new ProgramSlot();
-        ProgramSlot oldPs = new ProgramSlot();
+//        ProgramSlot oldPs = new ProgramSlot();
+
         ps.setRpname(req.getParameter("rpname"));
         ps.setPresenter(req.getParameter("presenter"));
         ps.setProducer(req.getParameter("producer"));
@@ -39,20 +40,20 @@ public class EnterScheduleDetailsCmd implements Perform {
         Date d_date = Date.valueOf(date);
         ps.setDate(d_date);
 
-        String oldDate = req.getParameter("oldDate");
-        System.out.print("oldDate + " + oldDate);
-        Date d_oldDate = Date.valueOf(oldDate);
-        oldPs.setDate(d_oldDate);
+//        String oldDate = req.getParameter("oldDate");
+//        System.out.print("oldDate + " + oldDate);
+//        Date d_oldDate = Date.valueOf(oldDate);
+//        oldPs.setDate(d_oldDate);
 
         String sttime = req.getParameter("sttime");
         System.out.print("sttime + " + sttime);
         Time t_sttime = Time.valueOf(sttime);
         ps.setSttime(t_sttime);
 
-        String oldSttime = req.getParameter("oldSttime");
-        System.out.print("oldSttime + " + oldSttime);
-        Time t_oldSttime = Time.valueOf(oldSttime);
-        oldPs.setSttime(t_oldSttime);
+//        String oldSttime = req.getParameter("oldSttime");
+//        System.out.print("oldSttime + " + oldSttime);
+//        Time t_oldSttime = Time.valueOf(oldSttime);
+//        oldPs.setSttime(t_oldSttime);
 
         String dur = req.getParameter("duration");
         Time t_dur = Time.valueOf(dur);
@@ -71,7 +72,8 @@ public class EnterScheduleDetailsCmd implements Perform {
             if (ins.equalsIgnoreCase("true")) {
                 del.processCreate(ps);
             } else {
-                del.processModify(ps, oldPs);
+                ps.setId(Integer.valueOf(req.getParameter("id")));
+                del.processModify(ps);
 
             }
             ReviewSelectScheduleDelegate psdel = new ReviewSelectScheduleDelegate();

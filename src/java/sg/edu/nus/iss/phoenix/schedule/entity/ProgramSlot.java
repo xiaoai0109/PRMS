@@ -16,6 +16,7 @@ public class ProgramSlot implements Cloneable, Serializable {
      * Persistent Instance variables. This data is directly 
      * mapped to the columns of database table.
      */
+    private int id = 0;
     private String rpname;
     private Date date;
     private Time sttime;
@@ -34,13 +35,35 @@ public class ProgramSlot implements Cloneable, Serializable {
 
     }
 
-    public ProgramSlot(String rpname, Date date, Time sttime) {
+    // need to delete
+//    public ProgramSlot(String rpname, Date date, Time sttime) {
+//        this.rpname = rpname;
+//        this.date = date;
+//        this.sttime = sttime;
+//    }
+//    public ProgramSlot(int id, String rpname, Date date, Time sttime) {
+//        this.id = id;
+//        this.rpname = rpname;
+//        this.date = date;
+//        this.sttime = sttime;
+//    }
+
+    public ProgramSlot(int id) {
+        this.id = id;
+    }
+
+
+    public ProgramSlot(String rpname, Date date, Time sttime, Time duration, String presenter, String producer) {
         this.rpname = rpname;
         this.date = date;
         this.sttime = sttime;
+        this.duration = duration;
+        this.presenter = presenter;
+        this.producer = producer;
     }
 
-    public ProgramSlot(String rpname, Date date, Time sttime, Time duration, String presenter, String producer) {
+    public ProgramSlot(int id, String rpname, Date date, Time sttime, Time duration, String presenter, String producer) {
+        this.id = id;
         this.rpname = rpname;
         this.date = date;
         this.sttime = sttime;
@@ -61,6 +84,14 @@ public class ProgramSlot implements Cloneable, Serializable {
      * so these might require some manual additions.
      * @return
      */
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getRpname() {
         return rpname;
@@ -124,7 +155,8 @@ public class ProgramSlot implements Cloneable, Serializable {
      * @param producerIn
      */
 
-    public void setAll(String rpnameIn, Date dateIn, Time sttimeIn, Time durationIn, String presenterIn, String producerIn) {
+    public void setAll(int idIn, String rpnameIn, Date dateIn, Time sttimeIn, Time durationIn, String presenterIn, String producerIn) {
+        this.id = idIn;
         this.rpname = rpnameIn;
         this.date = dateIn;
         this.sttime = sttimeIn;
@@ -145,7 +177,7 @@ public class ProgramSlot implements Cloneable, Serializable {
      */
     public boolean hasEqualMapping(ProgramSlot valueObject) {
 
-        // mia need to implement
+        // need to implement
 //        if (this.name == null) {
 //            if (valueObject.getName() != null)
 //                return(false);
@@ -180,6 +212,7 @@ public class ProgramSlot implements Cloneable, Serializable {
         StringBuilder out = new StringBuilder();
         out.append("\nProgramSlot class, mapping to table program-slot\n");
         out.append("Persistent attributes: \n");
+        out.append("id = ").append(this.id).append("\n");
         out.append("rpname = ").append(this.rpname).append("\n");
         out.append("date = ").append(this.date).append("\n");
         out.append("sttime = ").append(this.sttime).append("\n");
@@ -202,6 +235,8 @@ public class ProgramSlot implements Cloneable, Serializable {
     public Object clone() throws CloneNotSupportedException {
         ProgramSlot cloned = new ProgramSlot();
 
+        if (this.id != 0)
+            cloned.setId(this.id);
         if (this.rpname != null)
             cloned.setRpname(this.rpname);
         if (this.date != null)

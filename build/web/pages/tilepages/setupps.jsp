@@ -25,6 +25,13 @@
                 <%--<th width="25%"><fmt:message key="label.crudps.duration" /></th>--%>
             <%--</tr>--%>
             <tr>
+                <td><fmt:message key="id" /></td>
+                <td><input type="text" name="id"
+                           value="${param['id']}" size=15 maxlength=20>
+                    <%--<input type="hidden" name="oldDate" value="${param['oldDate']}" />--%>
+                </td>
+            </tr>
+            <tr>
                 <td><fmt:message key="label.crudps.rpname" /></td>
                 <td><input type="text" name="rpname" value="${param['rpname']}" size=15
                            maxlength=20 readonly="readonly">

@@ -65,7 +65,8 @@ public class ScheduleRESTService {
 
         for (int i = 0; i < pslist.size(); i++) {
             pssList.getPsList().add(
-                    new ProgramSlot(pslist.get(i).getRpname(),
+                    new ProgramSlot(pslist.get(i).getId(),
+                            pslist.get(i).getRpname(),
                             pslist.get(i).getDate(),
                             pslist.get(i).getSttime(),
                             pslist.get(i).getDuration(),
@@ -83,8 +84,11 @@ public class ScheduleRESTService {
     @POST
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateSchedule(ArrayList<ProgramSlot> psArray) {
-        service.processModify(psArray.get(0), psArray.get(1));
+//    public void updateSchedule(ArrayList<ProgramSlot> psArray) {
+    public void updateSchedule(ProgramSlot ps) {    
+//        service.processModify(psArray.get(0), psArray.get(1));        
+        service.processModify(ps);
+
     }
 //    public void updateSchedule(ProgramSlot ps, ProgramSlot oldPs) {
 //        service.processModify(ps, oldPs);
@@ -107,17 +111,17 @@ public class ScheduleRESTService {
      * Mia: incorrect, long path
      */
     @DELETE
-    @Path("/delete/{rpname}")
+    @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteProgramSlot(@PathParam("rpname") String name) {
-        String name2;
+    public void deleteProgramSlot(@PathParam("id") String id) {
+        String id2;
         try {
-            name2 = URLDecoder.decode(name, "UTF-8");
+            id2 = URLDecoder.decode(id, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return;
         }
 
-//        service.processDelete(name2);
+        service.processDelete(Integer.valueOf(id2));
     }
 }
