@@ -436,11 +436,17 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
     public boolean checkOverlap(Date date, Time sttime, Time duration) throws SQLException {
 
+//        String sql = "select * \n" +
+//                "from `program-slot` \n" +
+//                "where dateOfProgram = ? AND\n" +
+//                "    ((startTime >= ?  AND startTime < ?) \n" +
+//                "    OR (SEC_TO_TIME(TIME_TO_SEC(`startTime`) + TIME_TO_SEC(`duration`)) > ? \n" +
+//                "    AND SEC_TO_TIME(TIME_TO_SEC(`startTime`) + TIME_TO_SEC(`duration`)) <= ? ));";
         String sql = "select * \n" +
                 "from `program-slot` \n" +
                 "where dateOfProgram = ? AND\n" +
                 "    ((startTime >= ?  AND startTime < ?) \n" +
-                "    OR (SEC_TO_TIME(TIME_TO_SEC(`startTime`) + TIME_TO_SEC(`duration`)) > ? \n" +
+                "    OR (ADD_TIME(`startTime`,`duration`))  > ? \n" +
                 "    AND SEC_TO_TIME(TIME_TO_SEC(`startTime`) + TIME_TO_SEC(`duration`)) <= ? ));";
 
 //        String sql = "select * \n" +

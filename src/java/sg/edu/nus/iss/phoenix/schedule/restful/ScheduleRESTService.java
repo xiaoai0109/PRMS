@@ -20,6 +20,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import sg.edu.nus.iss.phoenix.schedule.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.service.ScheduleService;
@@ -113,15 +116,22 @@ public class ScheduleRESTService {
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteProgramSlot(@PathParam("id") String id) {
-        String id2;
+    public void deleteProgramSlot(@PathParam("id") String id) {    
+//    public Response deleteProgramSlot(@PathParam("id") String id) {
+
+        String id2 = null;
         try {
             id2 = URLDecoder.decode(id, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return;
+//            ResponseBuilder resp = Response.status(Status.FORBIDDEN);
+//            return resp.build();
         }
-
+        
         service.processDelete(Integer.valueOf(id2));
+
+//        Response a status code 
+//        ResponseBuilder resp = Response.status(1==2 ? Status.OK : Status.CONFLICT);
+//        return resp.build();
     }
 }
